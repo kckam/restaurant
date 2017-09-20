@@ -24,20 +24,28 @@ restaurant = {
 		$( "main" ).on( "click", ".map_label", function() {
 			restaurant.showDetails($(this).attr("data-id"));
 		});
+
+		$(".close_page").click(function(){
+			restaurant.closeFullPage();
+		});
 	},
 
 	filterData: function(selected){
-		var data = restaurant.rawData.slice();
-		var res = [];
-		console.log(data);
-		for(i in data) {
-			if(data[i].category == selected)
+		var res = {};
+		$.extend(res, restaurant.rawData);
+		if(selected !== "")
+		{
+			for(i in res) 
 			{
-				data.splice(i, 1);
+				if(res[i].category != selected)
+				{
+					delete res[i];
+				}
 			}
 		}
-		restaurant.updateTemplate(data);
-		restaurant.updateMarker(data);
+		
+		restaurant.updateTemplate(res);
+		restaurant.updateMarker(res);
 	},
 
 	placeMarker: function() {
@@ -120,7 +128,7 @@ restaurant = {
             directionsDisplay.setDirections(response);
             if(index)
             {
-        	 	restaurant.rawData[index].steps = directionsDisplay.getDirections().routes[0]['legs'][0].steps;
+        	 	restaurant.rawData[index].map_details = directionsDisplay.getDirections();
             }
            
 			console.log(directionsDisplay.getDirections());
@@ -211,9 +219,17 @@ restaurant = {
        	restaurant.calculateRoute(map,request, directionsDisplay, null);
 
 		$(".full_page").addClass("active");
-	}
+	},
+
+	closeFullPage: function(){
+		$(".full_page").removeClass("active");
+	},
 }
 
 $( document ).ready(function() {
     restaurant.init();
+});
+
+$(window).load(function() {
+	$("html").removeClass("preload");
 });

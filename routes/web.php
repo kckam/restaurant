@@ -21,3 +21,5 @@ Route::get('get_all_restaurant', function() {
             ->get()->keyBy('id');
     return $res;
 });
+
+Route::resource('restaurant', 'RestaurantsController');
