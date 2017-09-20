@@ -1,6 +1,18 @@
 restaurant = {
 	init: function() {
-		restaurant.placeMarker();
+
+		if (navigator.geolocation) {
+          	navigator.geolocation.getCurrentPosition(function(position) {
+	            restaurant.current_position = {
+	              lat: position.coords.latitude,
+	              lng: position.coords.longitude
+	            };
+	            restaurant.loadAllRestaurant();
+	            restaurant.placeMarker();
+            });
+          }
+
+		
 		restaurant.loadHandler();
 	},
 
@@ -10,12 +22,13 @@ restaurant = {
 		});
 
 		$( "main" ).on( "click", ".map_label", function() {
-			console.log($(this).attr("data-id"));
+			restaurant.showDetails($(this).attr("data-id"));
 		});
 	},
 
 	filterData: function(selected){
 		var data = restaurant.rawData.slice();
+		var res = [];
 		console.log(data);
 		for(i in data) {
 			if(data[i].category == selected)
@@ -52,28 +65,41 @@ restaurant = {
   				lng: parseFloat(data[i].long),
   			}
 
-  			console.log(position);
-
-			 	var map = new google.maps.Map(document.getElementById('map'+data[i].id), {
-	          center: position,
-	          zoom: 15
+		 	var map = new google.maps.Map(document.getElementById('map'+data[i].id), {
+		        center: position,
+		        zoom: 15
 	        });
 
 			
-			var marker = new google.maps.Marker({
-				position: position,
-				map: map,
-				// label: data[i].name,
-				title: data[i].name
-		  	});
+			// var marker = new google.maps.Marker({
+			// 	position: position,
+			// 	map: map,
+			// 	// label: data[i].name,
+			// 	title: data[i].name
+		 //  	});
 
 		  	var contentString = '<div class="map_label" data-id='+data[i].id+'><h1>'+data[i].name+'</h1></div>';
 
-        var infowindow = new google.maps.InfoWindow({
-          content: contentString
-        });
+	        var infowindow = new google.maps.InfoWindow({
+	          content: contentString
+	        });
 
-		  	restaurant.listenMarker(marker,infowindow,map);
+			var directionsDisplay;
+            var request = {
+				origin: restaurant.current_position,
+			  	destination: position,
+				provideRouteAlternatives: false,
+				travelMode: 'DRIVING',
+				unitSystem: google.maps.UnitSystem.IMPERIAL
+	        };
+
+	        directionsDisplay = new google.maps.DirectionsRenderer({
+	         	map: map
+	        });
+
+	       	restaurant.calculateRoute(map,request, directionsDisplay, i);
+	 		
+		  	// restaurant.listenMarker(marker,infowindow,map);
   		}
 	},
 
@@ -81,6 +107,110 @@ restaurant = {
  		google.maps.event.addListener(marker, 'click', function() {
             infowindow.open(map, marker);
         });
+	},
+
+	calculateRoute: function(map, request, directionsDisplay, index) {
+		
+
+ 		// Pass the directions request to the directions service.
+        var directionsService = new google.maps.DirectionsService();
+        directionsService.route(request, function(response, status) {
+          if (status == 'OK') {
+            // Display the route on the map.
+            directionsDisplay.setDirections(response);
+            if(index)
+            {
+        	 	restaurant.rawData[index].steps = directionsDisplay.getDirections().routes[0]['legs'][0].steps;
+            }
+           
+			console.log(directionsDisplay.getDirections());
+          }
+        });
+	},
+
+	loadAllRestaurant: function(){
+	 	var map = new google.maps.Map(document.getElementById('all_restaurant'), {
+	        center: restaurant.current_position,
+	        zoom: 11
+	    });
+
+		new google.maps.Marker({
+			position: restaurant.current_position,
+			map: map,
+			icon: {
+		      url: "https://d30y9cdsu7xlg0.cloudfront.net/png/8203-200.png",
+		      scaledSize: new google.maps.Size(50, 50),
+		    },
+	  	});
+
+	 	var currentRequest = null;   
+
+	 	currentRequest = $.ajax({
+	  		url: "./get_all_restaurant",
+	  		beforeSend : function()    {           
+		        if(currentRequest != null) {
+		            currentRequest.abort();
+		        }
+		    },
+		}).done(function(data) {
+			for(i in data) {
+	  			var position = {
+	  				lat: parseFloat(data[i].lat),
+	  				lng: parseFloat(data[i].long),
+	  			}
+				var marker = new google.maps.Marker({
+					position: position,
+					map: map,
+					// label: data[i].name,
+					title: data[i].name
+			  	});
+
+			  	var contentString = '<div class="map_label" data-id='+data[i].id+'><h1>'+data[i].name+'</h1></div>';
+
+		        var infowindow = new google.maps.InfoWindow({
+		          content: contentString
+		        });
+
+			  	restaurant.listenMarker(marker,infowindow,map);
+	  		}
+		});
+	},
+
+	showDetails: function(id) {
+		var source   = $("#details-template").html();
+		var template = Handlebars.compile(source);
+
+		$(".full_page .content").html(template(restaurant.rawData[id]));
+
+
+		var position = {
+				lat: parseFloat(restaurant.rawData[id].lat),
+				lng: parseFloat(restaurant.rawData[id].long),
+			}
+
+	 	var map = new google.maps.Map(document.getElementById('details_map'), {
+	        center: position,
+	        zoom: 15
+        });
+
+		var directionsDisplay;
+        
+
+        var request = {
+			origin: restaurant.current_position,
+		  	destination: position,
+			provideRouteAlternatives: false,
+			travelMode: 'DRIVING',
+			unitSystem: google.maps.UnitSystem.IMPERIAL
+        };
+
+        directionsDisplay = new google.maps.DirectionsRenderer({
+         	map: map
+        });
+
+       	restaurant.calculateRoute(map,request, directionsDisplay, null);
+
+		$(".full_page").addClass("active");
 	}
 }
 

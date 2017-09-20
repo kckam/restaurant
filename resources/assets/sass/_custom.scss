@@ -55,6 +55,41 @@ html {
 	main {
 		margin-top: 20px;
 		
+		.full_page {
+		    background: #d8cece;
+		    position: fixed;
+		    top: 0;
+		    width: 100%;
+		    height: 100vh;
+		    left: 0;
+		    opacity: 0;
+		    visibility: hidden;
+		    -webkit-transition-duration: 0.5s;
+		       -moz-transition-duration: 0.5s;
+		        -ms-transition-duration: 0.5s;
+		         -o-transition-duration: 0.5s;
+		            transition-duration: 0.5s;
+		    -webkit-transform: translate(0,50%);
+		       -moz-transform: translate(0,50%);
+		        -ms-transform: translate(0,50%);
+		         -o-transform: translate(0,50%);
+		            transform: translate(0,50%);
+		    
+		    &.active {
+	    	 	opacity: 1;
+		    	visibility: visible;
+		    	-webkit-transform: translate(0);
+		    	   -moz-transform: translate(0);
+		    	    -ms-transform: translate(0);
+		    	     -o-transform: translate(0);
+		    	        transform: translate(0);
+		    }
+		}
+		
+		.all_restaurant_wrapper {
+			margin-bottom: 20px;
+		}
+		
 		.filter_wrapper {
 			margin-bottom: 20px;
 			
@@ -71,15 +106,16 @@ html {
 			.restaurant {
 				float: left;
 				width: 30%;
+			    height: 370px;
 				border: 1px solid #EEEEEE;
 				vertical-align: top; 
 				box-sizing: border-box;
+				margin-right: 5%;
+				margin-bottom: 20px;
 				
-				&:not(:last-child) {
-					margin-right: 5%;
+				&:nth-child(3n) {
+					margin-right: 0;
 				}
-
-				
 			}
 		}
 	}

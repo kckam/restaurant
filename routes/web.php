@@ -18,6 +18,6 @@ Route::get('get_all_restaurant', function() {
 	$res = DB::table('restaurants')
             ->leftJoin('categories', 'restaurants.category', '=', 'categories.id')
             ->select('restaurants.*', 'categories.name as category_name')
-            ->get();
+            ->get()->keyBy('id');
     return $res;
 });
