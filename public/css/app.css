@@ -8846,7 +8846,7 @@ template {
   -o-transition: none !important;
 }
 
-html {
+html body {
   font-family: Quicksand;
 }
 
@@ -9078,6 +9078,7 @@ html main .restaurants .restaurant:hover .overlay .overlay_content {
 html main .restaurants .restaurant h2 {
   text-align: center;
   font-size: 13px;
+  margin: 10px 0;
 }
 
 html main .restaurants .restaurant .map {

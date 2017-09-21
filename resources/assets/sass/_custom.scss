@@ -6,7 +6,10 @@
 }
 
 html {
-	font-family: Quicksand;
+
+	body {
+		font-family: Quicksand;
+	}
 	
 	ul {
 		list-style: none;
@@ -247,6 +250,7 @@ html {
 				h2 {
 					text-align: center;
 					font-size: 13px;
+				    margin: 10px 0;
 				}
 
 				.map {
