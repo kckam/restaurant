@@ -11,9 +11,9 @@
 	<section class="header">
 		<nav class="container">
 			<ul class="left">
-				<li><a href="http://localhost/sample/public/">Home</a></li>
+				<li><a href="{{ route('homepage') }}">Home</a></li>
 				@if (Auth::user())
-				<li><a href="http://localhost/sample/public/restaurant">List restaurant</a></li>
+				<li><a href="{{ route('list_restautant') }}">List restaurant</a></li>
 				@endif
 			</ul>
 

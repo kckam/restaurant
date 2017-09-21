@@ -12,13 +12,7 @@ use App\Category;
 |
 */
 
-Route::get('/login', function(){
-	return view('auth.login');
-});
 
-Route::get('/register', function(){
-	return view('auth.register');
-});
 
 Route::get('/', "PagesController@index");
 
@@ -34,3 +28,6 @@ Route::resource('restaurant', 'RestaurantsController');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/', 'PagesController@index')->name('homepage');
+Route::get('/restaurant', 'RestaurantsController@index')->name('list_restautant');

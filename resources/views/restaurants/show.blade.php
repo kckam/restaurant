@@ -1,7 +1,6 @@
 @extends('layout.header')
 
 @section('content')
-	<a href="../restaurant" class="btn">Back</a>
 	<a href="../restaurant/{{$restaurant->id}}/edit" class="btn">Edit</a>
 
 	<h1>View</h1>
