@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 19, 2017 at 02:43 PM
+-- Generation Time: Sep 21, 2017 at 02:14 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -25,6 +25,8 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `categories`
 --
+
+CREATE DATABASE `restaurants`;
 
 CREATE TABLE `categories` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -102,7 +104,10 @@ CREATE TABLE `restaurants` (
 INSERT INTO `restaurants` (`id`, `name`, `category`, `lat`, `long`, `created_at`, `updated_at`) VALUES
 (1, 'Happy Lucky', 1, '1.332704', '103.904464', NULL, NULL),
 (2, 'El Laco', 2, '1.345010', '103.983209', NULL, NULL),
-(3, 'Western', 3, '1.300515', '103.854812', NULL, NULL);
+(3, 'Western', 3, '1.300515', '103.854812', NULL, NULL),
+(6, 'Chicken Rice', 1, '1.321847', '103.800888', '2017-09-21 03:50:45', '2017-09-21 03:50:45'),
+(7, 'Kaw Kaw', 1, '1.320131', '103.793335', '2017-09-21 03:54:39', '2017-09-21 03:54:39'),
+(8, 'Sakurazaka', 3, '1.344157', '103.875046', '2017-09-21 03:54:58', '2017-09-21 03:54:58');
 
 -- --------------------------------------------------------
 
@@ -119,6 +124,14 @@ CREATE TABLE `users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'kckam', 'kckam@sunriseclick.com', '$2y$10$YZ4J6.YrcBReSmEhTB096uLOkHgnb30JnFholHUkt9nQUyMZidPkO', '4PzapImYPYw1C7pnZvOfb54iD1kBlDRkCsttDRLtKkm5fviLS3ZmwQLlWNjo', '2017-09-21 03:35:08', '2017-09-21 03:35:08'),
+(2, 'admin', 'admin@admin.com', '$2y$10$YWyT9BBJ14iXDFQ/fz0ah.iPa7OXYC0DjbLsj/mArvpRm30e9MsUi', 'rFhLNIePYkOxcxG5ih080ShH11XjlcbedqXbHrFMUU6Tn7ay7hdo3CpKCi2E', '2017-09-21 04:13:43', '2017-09-21 04:13:43');
 
 --
 -- Indexes for dumped tables
@@ -173,12 +186,12 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `restaurants`
 --
 ALTER TABLE `restaurants`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
