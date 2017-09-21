@@ -12,6 +12,14 @@ use App\Category;
 |
 */
 
+Route::get('/login', function(){
+	return view('auth.login');
+});
+
+Route::get('/register', function(){
+	return view('auth.register');
+});
+
 Route::get('/', "PagesController@index");
 
 Route::get('get_all_restaurant', function() {
@@ -23,3 +31,6 @@ Route::get('get_all_restaurant', function() {
 });
 
 Route::resource('restaurant', 'RestaurantsController');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

@@ -25,6 +25,10 @@ restaurant = {
 			restaurant.showDetails($(this).attr("data-id"));
 		});
 
+		$( "main" ).on( "click", ".overlay_content", function() {
+			restaurant.showDetails($(this).closest(".restaurant").attr("data-id"));
+		});
+
 		$(".close_page").click(function(){
 			restaurant.closeFullPage();
 		});
@@ -75,7 +79,8 @@ restaurant = {
 
 		 	var map = new google.maps.Map(document.getElementById('map'+data[i].id), {
 		        center: position,
-		        zoom: 15
+		        zoom: 15,
+		        disableDefaultUI: true
 	        });
 
 			
@@ -130,8 +135,6 @@ restaurant = {
             {
         	 	restaurant.rawData[index].map_details = directionsDisplay.getDirections();
             }
-           
-			console.log(directionsDisplay.getDirections());
           }
         });
 	},

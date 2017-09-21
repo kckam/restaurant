@@ -37,10 +37,17 @@
 <script id="list-template" type="text/x-handlebars-template">
   <ul class="restaurants">
 	@{{#each this}}
-	<li class="restaurant">
+	<li class="restaurant" data-id="@{{this.id}}">
 		<h2>@{{this.name}} - @{{this.category_name}}</h2>
 		<div class="map" id="map@{{this.id}}"></div>
+		<div class="overlay">
+			<div class="overlay_content">
+				<h3>@{{this.name}} - @{{this.category_name}}</h3>
+			</div>
+		</div>
 	</li>
+	@{{else}}
+		<p>No result.</p>
     @{{/each}}
  </ul>
 </script>
@@ -51,7 +58,7 @@
 		
 	</div>
 	@{{#with this.map_details.routes.[0].legs.[0]}}
-		<h3>Total Distance @{{convertKm this.distance.value}}km</h3>
+		<h3>Total Distance: @{{convertKm this.distance.value}}km &nbsp;&nbsp;&nbsp; Est. Time: @{{this.duration.text}}</h3>
 		<ul class="instructions">
 		@{{#each this.steps}}
 			<li class="instruction">@{{{this.instructions}}} - @{{{this.distance.value}}}m</li>

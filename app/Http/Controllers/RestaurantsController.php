@@ -15,7 +15,8 @@ class RestaurantsController extends Controller
      */
     public function index()
     {
-        $restaurants =  Restaurant::all();
+        $restaurants =  Restaurant::orderBy('created_at', 'desc')->get();
+
         $data = array(
                     "title" => "List",
                     "restaurants" => $restaurants
@@ -102,7 +103,19 @@ class RestaurantsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $restaurant = Restaurant::leftJoin('categories', 'restaurants.category', '=', 'categories.id')
+                    ->where('restaurants.id', '=', $id)
+                    ->select('restaurants.*', 'categories.name as category_name')
+                    ->first();
+        $category_data = Category::all()->pluck("name", "id");
+
+        $data = array(
+            "title" => "Edit",
+            "restaurant" => $restaurant,
+            "category_data" => $category_data
+        );
+
+        return view('restaurants.edit')->with($data);
     }
 
     /**
@@ -114,7 +127,21 @@ class RestaurantsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+            'category' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required'
+        ]);
+
+        $restaurant = Restaurant::find($id);
+        $restaurant->name = $request->input('name');
+        $restaurant->category = $request->input('category');
+        $restaurant->lat = $request->input('latitude');
+        $restaurant->long = $request->input('longitude');
+        $restaurant->save();
+
+        return redirect('./restaurant');
     }
 
     /**
@@ -125,6 +152,8 @@ class RestaurantsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $restaurant = Restaurant::find($id);
+        $restaurant->delete();
+        return redirect('./restaurant');
     }
 }
