@@ -142,7 +142,8 @@ restaurant = {
 	loadAllRestaurant: function(){
 	 	var map = new google.maps.Map(document.getElementById('all_restaurant'), {
 	        center: restaurant.current_position,
-	        zoom: 11
+	        zoom: 11,
+	        disableDefaultUI: true
 	    });
 
 		new google.maps.Marker({

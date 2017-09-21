@@ -59,26 +59,14 @@
         var position = {lat: {!! $restaurant->lat !!}, lng: {!! $restaurant->long !!}};
         var map = new google.maps.Map(document.getElementById('show_map'), {
           zoom: 12,
-          center: position
+          center: position,
+          disableDefaultUI: true
         });
 
         var marker = new google.maps.Marker({
           position: position,
           map: map
         });
-
-       google.maps.event.addListener(map, 'click', function(event){
-       		$("input[name='latitude']").val(event.latLng.lat());
-       		$("input[name='longitude']").val(event.latLng.lng());
-          	marker.setMap(null);
-       		marker = new google.maps.Marker({
-	          position: {
-	          	"lat": event.latLng.lat(),
-	          	"lng": event.latLng.lng()
-	          },
-	          map: map
-	        });
-		});
       }
 
 </script>

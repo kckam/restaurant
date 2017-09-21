@@ -13,7 +13,7 @@
 			<ul class="left">
 				<li><a href="{{ route('homepage') }}">Home</a></li>
 				@if (Auth::user())
-				<li><a href="{{ route('list_restautant') }}">List restaurant</a></li>
+				<li><a href="{{ route('list_restautant') }}">Manage restaurant</a></li>
 				@endif
 			</ul>
 
